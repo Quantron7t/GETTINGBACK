@@ -2,7 +2,7 @@
 
 namespace AdoRepository
 {
-    public class AdoDataAccessLayer
+    public class AdoDataAccessLayer : IManageEmployee
     {
 
     }
