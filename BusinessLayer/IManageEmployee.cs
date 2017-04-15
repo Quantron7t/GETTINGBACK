@@ -1,15 +1,15 @@
 ﻿using System;
-using OrganizationObjects;
 using System.Collections.Generic;
+using OrganizationObjects;
+using System.Text;
 
 namespace BusinessLayer
 {
     interface IManageEmployee
     {
         void Create(Employee employee);
-        List<Employee> Read();
-        void Update(Employee employee);
         void Delete(int employeeId);
+        List<Employee> Read();
         Employee ReadById(int employeeId);
     }
 }
