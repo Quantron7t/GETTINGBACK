@@ -17,19 +17,36 @@ namespace AdoRepository
 
         public void Create(Employee employee)
         {
-            throw new NotImplementedException();
+            using (sqlCon = new SqlConnection(sqlConString))
+            {
+                string createCommand = "Insert into employee values(@id,@name,@location,@salary,@grade)";
+                sqlCom = new SqlCommand(createCommand,sqlCon);
+                sqlCon.Open();
+                sqlCom.Parameters.AddWithValue("@id",employee.Id);
+                sqlCom.Parameters.AddWithValue("@name",employee.Name);
+                sqlCom.Parameters.AddWithValue("@location",employee.Location);
+                sqlCom.Parameters.AddWithValue("@salary",employee.Salary);
+                sqlCom.Parameters.AddWithValue("@grade",employee.Grade);
+                sqlCom.ExecuteNonQuery();
+            }
         }
 
         public void Delete(int employeeId)
         {
-            throw new NotImplementedException();
+            using (sqlCon=new SqlConnection(sqlConString))
+            {
+                string deleteCommand = "Delete from employee where id="+employeeId;
+                sqlCom = new SqlCommand(deleteCommand,sqlCon);
+                sqlCon.Open();
+                sqlCom.ExecuteNonQuery();
+            }
         }
 
         public List<Employee> Read()
         {
             using (sqlCon = new SqlConnection(sqlConString))
             {
-                string readCommand = "Select * from employee";
+                string readCommand = "Select * from employee order by id ASC";
                 sqlCom = new SqlCommand(readCommand,sqlCon);
                 sqlCon.Open();
                 using (sqlDataReader=sqlCom.ExecuteReader())
@@ -45,12 +62,38 @@ namespace AdoRepository
 
         public Employee ReadById(int employeeId)
         {
-            throw new NotImplementedException();
+            Employee employee = new Employee();
+            using (sqlCon=new SqlConnection(sqlConString))
+            {
+                string readByIdCommand = "Select * from employee where id=" + employeeId;
+                sqlCom = new SqlCommand(readByIdCommand, sqlCon);
+                sqlCon.Open();
+                using (sqlDataReader=sqlCom.ExecuteReader())
+                {
+                    sqlDataReader.Read();
+                    employee.Id = (int)sqlDataReader["id"];
+                    employee.Name = sqlDataReader["name"].ToString();
+                    employee.Location = sqlDataReader["location"].ToString();
+                    employee.Salary = (int)sqlDataReader["salary"];
+                    employee.Grade = sqlDataReader["grade"].ToString()[0];
+                }
+            }
+            return employee;
         }
 
         public void Update(Employee employee)
         {
-            throw new NotImplementedException();
+            using (sqlCon=new SqlConnection(sqlConString))
+            {
+                string updateCommand = "update employee set name=@name,location=@location,salary=@salary,grade=@grade where id=" + employee.Id;
+                sqlCom = new SqlCommand(updateCommand,sqlCon);
+                sqlCon.Open();
+                sqlCom.Parameters.AddWithValue("@name",employee.Name);
+                sqlCom.Parameters.AddWithValue("@location", employee.Location);
+                sqlCom.Parameters.AddWithValue("@salary", employee.Salary);
+                sqlCom.Parameters.AddWithValue("@grade", employee.Grade);
+                sqlCom.ExecuteNonQuery();
+            }
         }
     }
 }

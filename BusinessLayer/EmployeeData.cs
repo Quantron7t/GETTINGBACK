@@ -9,31 +9,40 @@ namespace BusinessLayer
 {
     public class EmployeeData : IManageEmployee
     {
+        AdoDataAccessLayer adoAccess;
+        Employee employee;
+
         public void Create(Employee employee)
         {
-            throw new NotImplementedException();
+            adoAccess = new AdoDataAccessLayer();
+            adoAccess.Create(employee);
         }
 
         public void Delete(int employeeId)
         {
-            throw new NotImplementedException();
+            adoAccess = new AdoDataAccessLayer();
+            adoAccess.Delete(employeeId);
         }
 
         public List<Employee> Read()
         {
-            AdoDataAccessLayer adoAccess = new AdoDataAccessLayer();
+            adoAccess = new AdoDataAccessLayer();
             List<Employee> employeeList = new List<Employee>(adoAccess.Read());
             return employeeList;
         }
 
         public Employee ReadById(int employeeId)
         {
-            throw new NotImplementedException();
+            adoAccess = new AdoDataAccessLayer();
+            employee = new Employee();
+            employee = adoAccess.ReadById(employeeId);
+            return employee;
         }
 
         public void Update(Employee employee)
         {
-            throw new NotImplementedException();
+            adoAccess = new AdoDataAccessLayer();
+            adoAccess.Update(employee);
         }
     }
 }
